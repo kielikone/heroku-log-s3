@@ -3,15 +3,15 @@ require 'logger'
 require_relative '../queue_io.rb'
 
 class WriterBase
-  include Singleton
 
-  def initialize
+  def initialize(appname)
     @logger = Logger.new(STDOUT)
     @logger.formatter = proc do |severity, datetime, progname, msg|
        "[upload #{$$} #{Thread.current.object_id}] #{msg}\n"
     end
     @io = QueueIO.new
     @logger.info "initialized"
+    @appname = appname
     self.start
   end
 
@@ -20,7 +20,7 @@ class WriterBase
   end
 
   def generate_filepath
-    Time.now.utc.strftime(ENV.fetch('STRFTIME', '%Y%m/%d/%H/%M%S.:thread_id.log').gsub(":thread_id", Thread.current.object_id.to_s))
+    Time.now.utc.strftime(ENV.fetch('STRFTIME', ':appname:/%Y/%m/%d/%H/%M%S.:thread_id:.log').gsub(":thread_id:", Thread.current.object_id.to_s).gsub(":appname:", @appname))
   end
 
   def stream_to(filepath)
