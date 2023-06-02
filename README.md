@@ -10,8 +10,9 @@ Setup the following `ENV` (aka `heroku config:set`)
 - `S3_KEY`, `S3_SECRET`, `S3_BUCKET` necessary ACL to your s3 bucket
 - `AWS_REGION` the AWS region your S3 bucket is in
 - `DURATION` (default `60`) seconds to buffer until we close the `IO` to `AWS::S3::S3Object#write`
-- `STRFTIME` (default `%Y%m/%d/%H/%M%S.:thread_id.log`) format of your s3 `object_id`
-  - `:thread_id` will be replaced by a unique number to prevent overwriting of the same file between reboots, in case the timestamp overlaps
+- `STRFTIME` (default `:prefix:/%Y/%m/%d/%H/%M%S.:thread_id:.log`) format of your s3 `object_id`
+  - `:thread_id:` will be replaced by a unique number to prevent overwriting of the same file between reboots, in case the timestamp overlaps
+  - `:prefix:` will be replaced by the prefix added to the `path` on the drain command (e.g. `heroku drains:add https://DRAIN_APP_NAME.herokuapp.com/path/to/logs -a <application-to-log>` will have a prefix of `path/to/logs`)
 - `HTTP_USER`, `HTTP_PASSWORD` (default no password protection) credentials for HTTP Basic Authentication
 - `WRITER_LIB` (default `./writer/s3.rb`) defines the ruby script to load `Writer` class
 
@@ -20,13 +21,13 @@ Setup the following `ENV` (aka `heroku config:set`)
 In your heroku app, add this drain (changing `HTTP_USER`, `HTTP_PASSWORD` and `DRAIN_APP_NAME` to appropriate values)
 
 ```
-heroku drains:add https://HTTP_USER:HTTP_PASSWORD@DRAIN_APP_NAME.herokuapp.com/
+heroku drains:add https://HTTP_USER:HTTP_PASSWORD@DRAIN_APP_NAME.herokuapp.com/path/to/logs -a <application-to-log>
 ```
 
 or if you have no password protection
 
 ```
-heroku drains:add https://DRAIN_APP_NAME.herokuapp.com/
+heroku drains:add https://DRAIN_APP_NAME.herokuapp.com/path/to/logs -a <application-to-log>
 ```
 
 # Credits

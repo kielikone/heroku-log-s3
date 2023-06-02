@@ -20,13 +20,13 @@ class App
   def call(env)
     lines = HerokuLogParser.parse(env['rack.input'].read).collect { |m| { msg: m[:message], ts: m[:emitted_at].strftime('%Y-%m-%dT%H:%M:%S.%L%z') } }
 
-    appname = env['REQUEST_PATH'].sub('/', '')
+    prefix = env['REQUEST_PATH'].sub('/', '')
 
-    writer = if @writers.key?(appname)
-               @writers[appname]
+    writer = if @writers.key?(prefix)
+               @writers[prefix]
              else
-               writer = Writer.new(appname)
-               @writers[appname] = writer
+               writer = Writer.new(prefix)
+               @writers[prefix] = writer
                writer
              end
 
