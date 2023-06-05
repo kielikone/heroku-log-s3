@@ -12,6 +12,9 @@ class QueueIO
     @queue.push(data)
   end
 
+  def rewind
+  end
+
   def read(bytes)
     return if @closed
     @pending.pop(true) # non-blocking, best effort

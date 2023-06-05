@@ -34,7 +34,7 @@ class App
       msg = line[:msg]
       next unless msg.start_with?(PREFIX)
 
-      writer.write([line[:ts], msg[PREFIX_LENGTH..-1]].join(' ').strip) # WRITER_LIB
+      writer.write([line[:ts], msg[PREFIX_LENGTH..-1]].join(' ').strip, line[:ts]) # WRITER_LIB
     end
 
   rescue Exception

@@ -15,7 +15,7 @@ class WriterBase
     self.start
   end
 
-  def write(line)
+  def write(line, timestamp)
     @io.write(line + "\n")
   end
 

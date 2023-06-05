@@ -7,8 +7,10 @@
 Setup the following `ENV` (aka `heroku config:set`)
 
 - `FILTER_PREFIX` this is the prefix string to look out for. every other log lines are ignored
-- `S3_KEY`, `S3_SECRET`, `S3_BUCKET` necessary ACL to your s3 bucket
+- `S3_BUCKET` bucket to use
+- `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY` necessary for ACL
 - `AWS_REGION` the AWS region your S3 bucket is in
+- `KMS_KEY` for encrypting cloudwatch logs
 - `DURATION` (default `60`) seconds to buffer until we close the `IO` to `AWS::S3::S3Object#write`
 - `STRFTIME` (default `:prefix:/%Y/%m/%d/%H/%M%S.:thread_id:.log`) format of your s3 `object_id`
   - `:thread_id:` will be replaced by a unique number to prevent overwriting of the same file between reboots, in case the timestamp overlaps
