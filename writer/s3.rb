@@ -22,6 +22,7 @@ class Writer < WriterBase
     res = @cloudwatch.describe_log_groups({ log_group_name_prefix: @log_group_name })
     unless res[:log_groups] and res[:log_groups].length > 0
       @cloudwatch.create_log_group({ log_group_name: @log_group_name, kms_key_id: ENV.fetch('KMS_KEY') })
+      @cloudwatch.put_retention_policy({log_group_name: @log_group_name, retention_in_days: Integer(ENV.fetch('EXPIRE_CLOUDWATCH_LOGS', 365))})
     end
   end
 
@@ -39,7 +40,7 @@ class Writer < WriterBase
   def write(line, timestamp)
     super(line, timestamp)
     @lines.push([line, timestamp])
-    if @lines.length > 100
+    if @lines.length > Integer(ENV.fetch('PUSH_TO_CLOUDWATCH', 100))
       push_to_cloudwatch
     end
   end

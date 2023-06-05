@@ -11,6 +11,8 @@ Setup the following `ENV` (aka `heroku config:set`)
 - `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY` necessary for ACL
 - `AWS_REGION` the AWS region your S3 bucket is in
 - `KMS_KEY` for encrypting cloudwatch logs
+- `EXPIRE_CLOUDWATCH_LOGS` (default `365`) cloudwatch log group retention in days
+- `PUSH_TO_CLOUDWATCH` (default `100`) number of logs between cloudwatch log puts
 - `DURATION` (default `60`) seconds to buffer until we close the `IO` to `AWS::S3::S3Object#write`
 - `STRFTIME` (default `:prefix:/%Y/%m/%d/%H/%M%S.:thread_id:.log`) format of your s3 `object_id`
   - `:thread_id:` will be replaced by a unique number to prevent overwriting of the same file between reboots, in case the timestamp overlaps
