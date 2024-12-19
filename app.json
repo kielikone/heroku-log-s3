@@ -3,7 +3,7 @@
   "description": "log drain from heroku to s3",
   "repository": "https://github.com/choonkeat/heroku-log-s3",
   "keywords": ["ruby", "rack", "log", "drain", "s3", "upload"],
-  "stack": "heroku-20",
+  "stack": "heroku-24",
   "env": {
     "AWS_REGION": "",
     "AWS_ACCESS_KEY_ID": {
