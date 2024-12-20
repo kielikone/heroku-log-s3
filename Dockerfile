@@ -5,9 +5,8 @@ COPY app.rb /
 COPY config.ru /
 COPY queue_io.rb /
 COPY Gemfile /
-# Depends on a version of libstdc++ old enough not to be in packages
-# Normal deps (install node from distro)
+COPY Gemfile.lock /
 RUN bundle install
 WORKDIR /
 ENV PORT 3000
-CMD ["bundle", "exec puma -C config/puma.rb"]
+CMD bundle exec puma -C config/puma.rb
